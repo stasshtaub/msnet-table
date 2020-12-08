@@ -12,4 +12,7 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import "~@/scss/base/reset";
+@import "~@/scss/base/typography";
+</style>

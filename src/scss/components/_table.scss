@@ -1,0 +1,16 @@
+.custom-table {
+  &__th,
+  &__td {
+    border: none !important;
+  }
+
+  &__th {
+    padding: 6px 22px;
+    background-color: $color-gray;
+
+    &:first-child {
+      border-radius: 8px 0 0 8px;
+      overflow: hidden;
+    }
+  }
+}
