@@ -1,0 +1,25 @@
+.checkbox {
+  $p: &;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background-color: $color-gray3;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &__input {
+    display: none;
+
+    &:checked ~ #{$p}__icon {
+      display: block;
+    }
+  }
+
+  &__icon {
+    display: none;
+    max-width: 12px;
+  }
+}

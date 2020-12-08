@@ -21,4 +21,13 @@
     height: 100%;
     object-fit: contain;
   }
+
+  &__checkbox-cell {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__checkbox {
+    margin-right: 12px;
+  }
 }

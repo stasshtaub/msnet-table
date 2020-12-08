@@ -2,18 +2,23 @@
   <vue-good-table
     :columns="columns"
     :rows="rows"
-    :sort-options="{
-      enabled: false
-    }"
+    :sort-options="{ enabled: false }"
     styleClass="custom-table">
     <template #table-column="{ column }">
       <span class="text text--bold">{{ column.label }}</span>
     </template>
     <template #table-row="{ column, row, formattedRow }">
-      <img
+      <div
         v-if="column.field === 'img'"
-        class="custom-table__img"
-        :src="row.img"/>
+        class="custom-table__checkbox-cell">
+        <Checkbox
+          class="custom-table__checkbox"
+          v-model="selected"
+          :native-value="row.sku"/>
+        <img
+          class="custom-table__img"
+          :src="row.img"/>
+      </div>
       <span v-else>
         {{ formattedRow[column.field] }}
       </span>
@@ -22,8 +27,12 @@
 </template>
 
 <script>
+import Checkbox from "@/components/Common/Checkbox";
+
 export default {
   name: "HomeTable",
+
+  components: { Checkbox },
 
   data() {
     const common = {
@@ -157,8 +166,29 @@ export default {
           wasIn: 4,
           salesCount: 32,
           proceeds: 11840
+        },
+        {
+          img: "https://picsum.photos/id/2/30",
+          sku: "165441464",
+          name: "Носки Веселый носочни",
+          platform: "Ozon",
+          category: "Одежда, обувь аксессуары/Женщина т",
+          brand: "СОВА",
+          seller: "Сова",
+          color: null,
+          availability: 2,
+          comment: 2,
+          rate: 4.86,
+          spp: 4.86,
+          avg: 1,
+          potential: 6125,
+          price: 350,
+          wasIn: 4,
+          salesCount: 32,
+          proceeds: 11840
         }
-      ]
+      ],
+      selected: []
     };
   }
 };
