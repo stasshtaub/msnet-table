@@ -3,25 +3,31 @@
     :columns="columns"
     :rows="rows"
     :sort-options="{ enabled: false }"
-    styleClass="custom-table">
+    styleClass="custom-table"
+  >
     <template #table-column="{ column }">
       <span class="text text--bold">{{ column.label }}</span>
     </template>
     <template #table-row="{ column, row, formattedRow }">
-      <div
-        v-if="column.field === 'img'"
-        class="custom-table__checkbox-cell">
-        <Checkbox
-          class="custom-table__checkbox"
-          v-model="selected"
-          :native-value="row.sku"/>
-        <img
-          class="custom-table__img"
-          :src="row.img"/>
+      <div :class="{ 'custom-table__td-inner': true, 'custom-table__td-inner--truncated': ['name', 'category'].includes(column.field) }">
+        <div v-if="column.field === 'img'" class="custom-table__checkbox-cell">
+          <Checkbox
+            class="custom-table__checkbox"
+            v-model="selected"
+            :native-value="row.sku"
+          />
+          <img class="custom-table__img" :src="row.img" />
+        </div>
+        <span
+          v-else-if="['name', 'category', 'brand'].includes(column.field)"
+          class="text text--blue"
+        >
+          {{ formattedRow[column.field] }}
+        </span>
+        <span v-else>
+          {{ formattedRow[column.field] }}
+        </span>
       </div>
-      <span v-else>
-        {{ formattedRow[column.field] }}
-      </span>
     </template>
   </vue-good-table>
 </template>
@@ -58,7 +64,8 @@ export default {
         {
           ...common,
           label: "Название",
-          field: "name"
+          field: "name",
+          width: "155px"
         },
         {
           ...common,
@@ -68,7 +75,8 @@ export default {
         {
           ...common,
           label: "Категория",
-          field: "category"
+          field: "category",
+          width: "230px"
         },
         {
           ...common,
@@ -78,7 +86,8 @@ export default {
         {
           ...common,
           label: "Продавец",
-          field: "seller"
+          field: "seller",
+          width: "155px"
         },
         {
           ...common,
@@ -147,9 +156,9 @@ export default {
         }
       ],
       rows: [
-        {
-          img: "https://picsum.photos/id/1/30",
-          sku: "165446325",
+        ...Array.from({ length: 10 }, (_, i) => ({
+          img: `https://picsum.photos/id/${ i + 1 }/30`,
+          sku: `${ 165446325 + i }`,
           name: "Носки СОВА, 1 шт",
           platform: "Ozon",
           category: "Одежда, обувь аксессуары/Женщина т",
@@ -157,36 +166,16 @@ export default {
           seller: "Сова",
           color: null,
           availability: 2,
-          comment: 2,
-          rate: 4.86,
-          spp: 4.86,
-          avg: 1,
-          potential: 6125,
-          price: 350,
-          wasIn: 4,
-          salesCount: 32,
-          proceeds: 11840
-        },
-        {
-          img: "https://picsum.photos/id/2/30",
-          sku: "165441464",
-          name: "Носки Веселый носочни",
-          platform: "Ozon",
-          category: "Одежда, обувь аксессуары/Женщина т",
-          brand: "СОВА",
-          seller: "Сова",
-          color: null,
-          availability: 2,
-          comment: 2,
-          rate: 4.86,
-          spp: 4.86,
-          avg: 1,
-          potential: 6125,
-          price: 350,
-          wasIn: 4,
-          salesCount: 32,
-          proceeds: 11840
-        }
+          comment: 2 + i,
+          rate: (4.86 + i * 0.1).toFixed(2),
+          spp: (4.86 + i * 0.5).toFixed(2),
+          avg: (1 + i * 0.3).toFixed(2),
+          potential: (6125 + i * 5).toFixed(2),
+          price: 350 + i * 10,
+          wasIn: 4 + i,
+          salesCount: 32 + i,
+          proceeds: 11840 + i * 20
+        }))
       ],
       selected: []
     };

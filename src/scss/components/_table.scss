@@ -1,16 +1,61 @@
 .custom-table {
+  $p: &;
+  $padding-y: 6px;
+  $padding-x: 12px;
+
+  border-spacing: 0 6px;
+
   &__th,
   &__td {
     border: none !important;
   }
 
   &__th {
-    padding: 6px 22px;
+    box-sizing: border-box;
+    padding: $padding-y $padding-x;
     background-color: $color-gray;
 
     &:first-child {
       border-radius: 8px 0 0 8px;
       overflow: hidden;
+    }
+
+    & + & {
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        width: 1px;
+        left: 0;
+        height: calc(100% - #{$padding-y} * 2);
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: $color-gray4;
+      }
+    }
+  }
+
+  &__td {
+    padding: 0 $padding-x;
+  }
+
+  &__td-inner {
+    max-width: 215px;
+    overflow: hidden;
+    white-space: nowrap;
+
+    &--truncated {
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 20px;
+        right: 0;
+        background: linear-gradient(90deg, rgba($color-white, 0), $color-white);
+      }
     }
   }
 
@@ -29,5 +74,6 @@
 
   &__checkbox {
     margin-right: 12px;
+    flex-shrink: 0;
   }
 }
