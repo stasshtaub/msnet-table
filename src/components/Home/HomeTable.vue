@@ -1,12 +1,23 @@
 <template>
   <vue-good-table
     :columns="columns"
-    :rows="rows"
+    :rows="filteredRows"
     :sort-options="{ enabled: false }"
     styleClass="custom-table"
   >
     <template #table-column="{ column }">
       <span class="text text--bold">{{ column.label }}</span>
+      <div
+        v-if="column.withFilters"
+        class="custom-table__search-row">
+        <input
+          class="custom-table__search"
+          v-model="filters[column.field]"
+        />
+        <button class="custom-table__filter-btn">
+          <IconFilter/>
+        </button>
+      </div>
     </template>
     <template #table-row="{ column, row, formattedRow }">
       <div :class="{ 'custom-table__td-inner': true, 'custom-table__td-inner--truncated': ['name', 'category'].includes(column.field) }">
@@ -34,11 +45,12 @@
 
 <script>
 import Checkbox from "@/components/Common/Checkbox";
+import IconFilter from "@/components/Icons/IconFilter";
 
 export default {
   name: "HomeTable",
 
-  components: { Checkbox },
+  components: { Checkbox, IconFilter },
 
   data() {
     const common = {
@@ -46,6 +58,8 @@ export default {
       tdClass: "custom-table__td",
       width: "77px"
     };
+
+    const withFilters = { ...common, withFilters: true };
 
     return {
       columns: [
@@ -57,99 +71,99 @@ export default {
           field: "img"
         },
         {
-          ...common,
+          ...withFilters,
           label: "SKU",
           field: "sku"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Название",
           field: "name",
           width: "155px"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Площадка",
           field: "platform"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Категория",
           field: "category",
           width: "230px"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Бренд",
           field: "brand"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Продавец",
           field: "seller",
           width: "155px"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Цвет",
           field: "color"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Наличие",
           field: "availability",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Коммент",
           field: "comment",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Рейтинг",
           field: "rate",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "СПП",
           field: "spp",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Среднее",
           field: "avg",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Потенц",
           field: "potential",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Цена",
           field: "price",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Был в на",
           field: "wasIn",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Продажи",
           field: "salesCount",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Выручка",
           field: "proceeds",
           type: "number"
@@ -177,8 +191,40 @@ export default {
           proceeds: 11840 + i * 20
         }))
       ],
+      filters: {
+        sku: null,
+        name: null
+      },
       selected: []
     };
+  },
+
+  computed: {
+    filteredRows() {
+      const { rows, filters } = this;
+      return rows.filter((row) => {
+        for (const key in filters) {
+          if (filters[key] && !`${ row[key] }`.includes(filters[key])) {
+            return false;
+          }
+        }
+        return true;
+      });
+    },
+
+    filteredRows2() {
+      const { rows, filters } = this;
+
+      return rows.filter((row) => {
+        for (const key in filters) {
+          if (filters[key] && !`${ row[key] }`.includes(filters[key])) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+    }
   }
 };
 </script>
