@@ -5,8 +5,11 @@
     :sort-options="{
       enabled: false
     }"
-    styleClass="custom-table"
-  />
+    styleClass="custom-table">
+    <template #table-column="{ column }">
+      <span class="text text--bold">{{ column.label }}</span>
+    </template>
+  </vue-good-table>
 </template>
 
 <script>
