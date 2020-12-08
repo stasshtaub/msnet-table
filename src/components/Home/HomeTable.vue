@@ -9,6 +9,15 @@
     <template #table-column="{ column }">
       <span class="text text--bold">{{ column.label }}</span>
     </template>
+    <template #table-row="{ column, row, formattedRow }">
+      <img
+        v-if="column.field === 'img'"
+        class="custom-table__img"
+        :src="row.img"/>
+      <span v-else>
+        {{ formattedRow[column.field] }}
+      </span>
+    </template>
   </vue-good-table>
 </template>
 
@@ -28,6 +37,7 @@ export default {
         {
           ...common,
           thClass: "vgt-center-align custom-table__th",
+          tdClass: "vgt-center-align custom-table__td",
           label: "Фото",
           field: "img"
         },
