@@ -66,26 +66,66 @@ const initFilter = () => ({
   isActive: false
 });
 
-const rowsDb = Array.from({ length: 10 }, (_, i) => ({
-  img: `https://picsum.photos/id/${ i + 1 }/30`,
-  sku: `${ 165446325 + i }`,
-  name: "Носки СОВА, 1 шт",
-  platform: "Ozon",
-  category: "Одежда, обувь аксессуары/Женщина т",
-  brand: "СОВА",
-  seller: "Сова",
-  color: null,
-  availability: 2,
-  comment: 2 + i,
-  rate: (4.86 + i * 0.1).toFixed(2),
-  spp: (4.86 + i * 0.5).toFixed(2),
-  avg: (1 + i * 0.3).toFixed(2),
-  potential: (6125 + i * 5).toFixed(2),
-  price: 350 + i * 10,
-  wasIn: 4 + i,
-  salesCount: 32 + i,
-  proceeds: 11840 + i * 20
-}));
+const names = [
+  "Носки СОВА, 1 шт",
+  "Носки Веселый носочни",
+  "Носки Kingkit",
+  "Носки KAFTAN",
+  "Носки HAPPESTAR"
+];
+
+const sellers = [
+  {
+    brand: "СОВА",
+    name: "Сова"
+  },
+  {
+    brand: "Веселый носочник",
+    name: "Веселый носочник"
+  },
+  {
+    brand: "Kingkit",
+    name: "Kingkit"
+  },
+  {
+    brand: "HAPPESTAR",
+    name: "Socks4you"
+  },
+  {
+    brand: "HAPPESTAR",
+    name: "TM Ukid"
+  },
+  {
+    brand: "Country Socks",
+    name: "Country Socks"
+  }
+];
+
+const rowsDb = Array.from({ length: 10 }, (_, i) => {
+  const { brand, name: seller } = sellers[Math.floor(Math.random() * sellers.length)];
+  const name = names[Math.floor(Math.random() * names.length)];
+
+  return {
+    img: `https://picsum.photos/id/${ i + 1 }/30`,
+    sku: `${ 165446325 + i }`,
+    name,
+    platform: "Ozon",
+    category: "Одежда, обувь аксессуары/Женщина т",
+    brand,
+    seller,
+    color: null,
+    availability: 2,
+    comment: 2 + i,
+    rate: (4.86 + i * 0.1).toFixed(2),
+    spp: (4.86 + i * 0.5).toFixed(2),
+    avg: (1 + i * 0.3).toFixed(2),
+    potential: (6125 + i * 5).toFixed(2),
+    price: 350 + i * 10,
+    wasIn: 4 + i,
+    salesCount: 32 + i,
+    proceeds: 11840 + i * 20
+  };
+});
 
 export default {
   name: "HomeTable",
