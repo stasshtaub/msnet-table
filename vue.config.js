@@ -1,5 +1,6 @@
 module.exports = {
-  css:{
+  publicPath: "",
+  css: {
     loaderOptions: {
       scss: {
         additionalData: `@import "~@/scss/utils/variables";`
