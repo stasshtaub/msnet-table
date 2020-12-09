@@ -1,11 +1,13 @@
+Посмотреть без сборки: https://stasshtaub.github.io/msnet-table/
+
 # msnet-table
 
-## Установка зависимостей
+## 1) Установка зависимостей
 ```
 npm install
 ```
 
-## Запуск dev-сервера
+## 2) Запуск dev-сервера
 ```
 npm run serve
 ```
