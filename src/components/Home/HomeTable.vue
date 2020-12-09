@@ -34,12 +34,13 @@
           />
           <img class="custom-table__img" :src="row.img" />
         </div>
-        <span
+        <a
           v-else-if="['name', 'category', 'brand'].includes(column.field)"
-          class="text text--blue"
+          href="#"
+          :title="formattedRow[column.field]"
         >
           {{ formattedRow[column.field] }}
-        </span>
+        </a>
         <span v-else>
           {{ formattedRow[column.field] }}
         </span>

@@ -20,6 +20,15 @@ a[role="button"]:not([disabled]) {
   cursor: pointer;
 }
 
+a {
+  color: $color-blue;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 th {
   font-weight: unset;
 }
