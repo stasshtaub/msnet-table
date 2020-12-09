@@ -7,17 +7,57 @@
   >
     <template #table-column="{ column }">
       <span class="text text--bold">{{ column.label }}</span>
-      <div
+      <TableFilters
+        v-if="column.withFilters"
+        :searchString.sync="filters[column.field].search"
+        :filter.sync="filters[column.field]"
+      />
+      <!-- <div
         v-if="column.withFilters"
         class="custom-table__search-row">
         <input
           class="custom-table__search"
-          v-model="filters[column.field]"
-        />
-        <button class="custom-table__filter-btn">
-          <IconFilter/>
-        </button>
-      </div>
+          v-model="filters[column.field].search">
+        <div class="custom-table__filter-wrp">
+          <div class="custom-table__filter">
+            <button class="custom-table__filter-btn">
+              <IconFilter/>
+            </button>
+            <div class="custom-table__filter-tooltip">
+              <p class="text text--gray">Колонка должна:</p>
+              <CustomSelect
+                v-model="filters[column.field].left.option"
+                :options="filterOptions"
+              />
+              <input
+                v-model="filters[column.field].left.query"
+                placeholder="значение">
+              <template v-if="filters[column.field].left.query">
+                <RadioGroup
+                  v-model="filters[column.field].operator"
+                  :options="filterOperators"
+                />
+                <CustomSelect
+                  v-model="filters[column.field].right.option"
+                  :options="filterOptions"
+                />
+                <input
+                  v-model="filters[column.field].right.query"
+                  placeholder="значение">
+              </template>
+              <CustomButton>
+                Фильтровать
+              </CustomButton>
+              <CustomButton type="danger-light">
+                <template #prepend>
+                  X
+                </template>
+                Сбросить
+              </CustomButton>
+            </div>
+          </div>
+        </div>
+      </div> -->
     </template>
     <template #table-row="{ column, row, formattedRow }">
       <div :class="{ 'custom-table__td-inner': true, 'custom-table__td-inner--truncated': ['name', 'category'].includes(column.field) }">
@@ -45,12 +85,20 @@
 
 <script>
 import Checkbox from "@/components/Common/Checkbox";
-import IconFilter from "@/components/Icons/IconFilter";
+import TableFilters from "@/components/Home/TableFilters";
+
+const initFilterOption = (option = null) => ({
+  option: option,
+  query: null
+});
 
 export default {
   name: "HomeTable",
 
-  components: { Checkbox, IconFilter },
+  components: { 
+    Checkbox,
+    TableFilters
+  },
 
   data() {
     const common = {
@@ -82,88 +130,88 @@ export default {
           width: "155px"
         },
         {
-          ...withFilters,
+          ...common,
           label: "Площадка",
           field: "platform"
         },
         {
-          ...withFilters,
+          ...common,
           label: "Категория",
           field: "category",
           width: "230px"
         },
         {
-          ...withFilters,
+          ...common,
           label: "Бренд",
           field: "brand"
         },
         {
-          ...withFilters,
+          ...common,
           label: "Продавец",
           field: "seller",
           width: "155px"
         },
         {
-          ...withFilters,
+          ...common,
           label: "Цвет",
           field: "color"
         },
         {
-          ...withFilters,
+          ...common,
           label: "Наличие",
           field: "availability",
           type: "number"
         },
         {
-          ...withFilters,
+          ...common,
           label: "Коммент",
           field: "comment",
           type: "number"
         },
         {
-          ...withFilters,
+          ...common,
           label: "Рейтинг",
           field: "rate",
           type: "number"
         },
         {
-          ...withFilters,
+          ...common,
           label: "СПП",
           field: "spp",
           type: "number"
         },
         {
-          ...withFilters,
+          ...common,
           label: "Среднее",
           field: "avg",
           type: "number"
         },
         {
-          ...withFilters,
+          ...common,
           label: "Потенц",
           field: "potential",
           type: "number"
         },
         {
-          ...withFilters,
+          ...common,
           label: "Цена",
           field: "price",
           type: "number"
         },
         {
-          ...withFilters,
+          ...common,
           label: "Был в на",
           field: "wasIn",
           type: "number"
         },
         {
-          ...withFilters,
+          ...common,
           label: "Продажи",
           field: "salesCount",
           type: "number"
         },
         {
-          ...withFilters,
+          ...common,
           label: "Выручка",
           field: "proceeds",
           type: "number"
@@ -192,9 +240,35 @@ export default {
         }))
       ],
       filters: {
-        sku: null,
-        name: null
+        sku: {
+          search: "",
+          operator: "and",
+          left: initFilterOption("contain"),
+          right: initFilterOption()
+        },
+        name: {
+          search: "",
+          operator: "and",
+          left: initFilterOption("contain"),
+          right: initFilterOption()
+        }
       },
+      filterOptions: [
+        {
+          label: "содержать",
+          value: "contain"
+        }
+      ],
+      filterOperators: [
+        {
+          label: "«И»",
+          value: "and"
+        },
+        {
+          label: "«Или»",
+          value: "or"
+        }
+      ],
       selected: []
     };
   },
@@ -204,7 +278,7 @@ export default {
       const { rows, filters } = this;
       return rows.filter((row) => {
         for (const key in filters) {
-          if (filters[key] && !`${ row[key] }`.includes(filters[key])) {
+          if (filters[key]?.search && !`${ row[key] }`.includes(filters[key].search)) {
             return false;
           }
         }
@@ -224,6 +298,13 @@ export default {
 
         return true;
       });
+    }
+  },
+
+  methods: {
+    testMethod(column) {
+      console.log(column);
+      return column;
     }
   }
 };

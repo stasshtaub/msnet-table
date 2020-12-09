@@ -1,0 +1,16 @@
+.custom-button {
+  border: none;
+  outline: none;
+  padding: 6px 8px;
+  border-radius: 4px;
+
+  &--primary {
+    background-color: $color-blue;
+    color: $color-white;
+  }
+
+  &--danger-light {
+    background-color: $color-gray7;
+    color: $color-red;
+  }
+}
