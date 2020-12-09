@@ -115,7 +115,8 @@ export default {
         {
           ...withFilters,
           label: "SKU",
-          field: "sku"
+          field: "sku",
+          width: "124px"
         },
         {
           ...withFilters,
@@ -127,7 +128,8 @@ export default {
           ...withFilters,
           disabledFilters: true,
           label: "Площадка",
-          field: "platform"
+          field: "platform",
+          width: "115px"
         },
         {
           ...withFilters,
@@ -138,7 +140,8 @@ export default {
         {
           ...withFilters,
           label: "Бренд",
-          field: "brand"
+          field: "brand",
+          width: "115px"
         },
         {
           ...withFilters,
@@ -150,25 +153,29 @@ export default {
           ...withFilters,
           disabledFilters: true,
           label: "Цвет",
-          field: "color"
+          field: "color",
+          width: "92px"
         },
         {
           ...withFilters,
           label: "Наличие",
           field: "availability",
-          type: "number"
+          type: "number",
+          width: "100px"
         },
         {
           ...withFilters,
           label: "Коммент",
           field: "comment",
-          type: "number"
+          type: "number",
+          width: "100px"
         },
         {
           ...withFilters,
           label: "Рейтинг",
           field: "rate",
-          type: "number"
+          type: "number",
+          width: "100px"
         },
         {
           ...withFilters,

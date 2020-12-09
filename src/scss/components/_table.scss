@@ -5,6 +5,7 @@
   border-spacing: 0 6px;
   // FIXME: Фильтры обрезаются, если в таблице нет строк (мало высоты). Реализовать append-to-body для фильтров и убрать это
   min-height: 320px;
+  padding: 0 10px;
 
   &__th,
   &__td {
@@ -19,7 +20,10 @@
 
     &:first-child {
       border-radius: $radius 0 0 $radius;
-      overflow: hidden;
+    }
+
+    &:last-child {
+      border-radius: 0 $radius $radius 0;
     }
 
     & + & {

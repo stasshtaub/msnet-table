@@ -10,14 +10,14 @@
     height: 20px;
     min-width: 0;
     border-radius: $radius2;
-    margin-right: 8px;
+    margin-right: 3px;
     border: none;
     outline: none;
   }
 
   &__filter-wrp {
     position: relative;
-    width: 20px;
+    width: 10px;
     flex-shrink: 0;
   }
 
@@ -45,6 +45,7 @@
   }
 
   &__filter-btn {
+    display: block;
     border-radius: $radius2 $radius2 0 0;
     border: none;
     outline: none;
@@ -60,6 +61,7 @@
   }
 
   &__title {
+    text-align: start;
     margin-bottom: 8px;
   }
 
