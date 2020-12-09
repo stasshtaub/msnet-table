@@ -3,6 +3,7 @@
     <input
       class="table-filters__search"
       v-model="_searchString"
+      :disabled="disabled"
     />
     <div
       class="table-filters__filter-wrp"
@@ -10,6 +11,7 @@
       <div :class="{ 'table-filters__filter': true, 'table-filters__filter--active': isActive }">
         <button
           class="table-filters__filter-btn"
+          :disabled="disabled"
           @click="toggleActive">
           <IconFilter />
         </button>
@@ -101,6 +103,11 @@ export default {
     },
 
     isActive: {
+      type: Boolean,
+      default: false
+    },
+
+    disabled: {
       type: Boolean,
       default: false
     }

@@ -32,7 +32,6 @@
 
       #{$p}__filter-btn {
         background-color: $color-white;
-
       }
     }
   }
@@ -51,6 +50,13 @@
     outline: none;
     width: 20px;
     height: 20px;
+    background-color: unset;
+
+    &:disabled {
+      path {
+        fill: $color-gray2;
+      }
+    }
   }
 
   &__title {

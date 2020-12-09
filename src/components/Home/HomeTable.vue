@@ -12,6 +12,7 @@
         :searchString.sync="filters[column.field].search"
         :filter.sync="filters[column.field]"
         :isActive.sync="filters[column.field].isActive"
+        :disabled="!!column.disabledFilters"
         @submit="filter"
         @reset="resetFilters"
       />
