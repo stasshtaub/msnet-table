@@ -25,7 +25,7 @@
               :options="filterOptions"
             />
             <input
-                class="table-filters__query"
+              class="input input--gray table-filters__query"
               v-model="_filter.left.query"
               placeholder="значение"
             />
@@ -40,7 +40,7 @@
                 :options="filterOptions"
               />
               <input
-                class="table-filters__query"
+                class="input input--gray table-filters__query"
                 v-model="_filter.right.query"
                 placeholder="значение"
               />
@@ -182,4 +182,5 @@ export default {
 
 <style lang="scss">
 @import "~@/scss/components/table-filters";
+@import "~@/scss/components/input";
 </style>

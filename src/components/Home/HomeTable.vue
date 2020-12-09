@@ -123,88 +123,90 @@ export default {
           width: "155px"
         },
         {
-          ...common,
+          ...withFilters,
+          disabledFilters: true,
           label: "Площадка",
           field: "platform"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Категория",
           field: "category",
           width: "230px"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Бренд",
           field: "brand"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Продавец",
           field: "seller",
           width: "155px"
         },
         {
-          ...common,
+          ...withFilters,
+          disabledFilters: true,
           label: "Цвет",
           field: "color"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Наличие",
           field: "availability",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Коммент",
           field: "comment",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Рейтинг",
           field: "rate",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "СПП",
           field: "spp",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Среднее",
           field: "avg",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Потенц",
           field: "potential",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Цена",
           field: "price",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Был в на",
           field: "wasIn",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Продажи",
           field: "salesCount",
           type: "number"
         },
         {
-          ...common,
+          ...withFilters,
           label: "Выручка",
           field: "proceeds",
           type: "number"
@@ -214,7 +216,22 @@ export default {
       rows: rowsDb,
       filters: {
         sku: initFilter(),
-        name: initFilter()
+        name: initFilter(),
+        platform: initFilter(),
+        category: initFilter(),
+        brand: initFilter(),
+        seller: initFilter(),
+        color: initFilter(),
+        availability: initFilter(),
+        comment: initFilter(),
+        rate: initFilter(),
+        spp: initFilter(),
+        avg: initFilter(),
+        potential: initFilter(),
+        price: initFilter(),
+        wasIn: initFilter(),
+        salesCount: initFilter(),
+        proceeds: initFilter()
       },
       filterOptions: [
         {
