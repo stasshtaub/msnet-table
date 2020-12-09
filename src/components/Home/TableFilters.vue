@@ -58,7 +58,7 @@
                 native-type="reset"
                 type="danger-light">
                 <template #prepend>
-                  X
+                  <IconCross />
                 </template>
                 Сбросить
               </CustomButton>
@@ -74,8 +74,9 @@
 import CustomSelect from "@/components/Common/CustomSelect";
 import RadioGroup from "@/components/Common/RadioGroup";
 import IconFilter from "@/components/Icons/IconFilter";
+import IconCross from "@/components/Icons/IconCross";
 import CustomButton from "@/components/Common/CustomButton";
-import ClickOutside from "vue-click-outside"
+import ClickOutside from "vue-click-outside";
 
 export default {
   name: "Table",
@@ -84,7 +85,8 @@ export default {
     CustomSelect,
     RadioGroup,
     IconFilter,
-    CustomButton
+    CustomButton,
+    IconCross
   },
   
   directives: {
