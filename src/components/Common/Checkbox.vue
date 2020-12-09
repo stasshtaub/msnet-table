@@ -1,5 +1,5 @@
 <template>
-  <label class="checkbox">
+  <label class="checkbox" tabindex="0">
     <input
       class="checkbox__input"
       v-model="_value"
