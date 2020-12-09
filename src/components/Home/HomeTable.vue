@@ -11,56 +11,20 @@
         v-if="column.withFilters"
         :searchString.sync="filters[column.field].search"
         :filter.sync="filters[column.field]"
+        :isActive.sync="filters[column.field].isActive"
+        @submit="filter"
+        @reset="resetFilters"
       />
-      <!-- <div
-        v-if="column.withFilters"
-        class="custom-table__search-row">
-        <input
-          class="custom-table__search"
-          v-model="filters[column.field].search">
-        <div class="custom-table__filter-wrp">
-          <div class="custom-table__filter">
-            <button class="custom-table__filter-btn">
-              <IconFilter/>
-            </button>
-            <div class="custom-table__filter-tooltip">
-              <p class="text text--gray">Колонка должна:</p>
-              <CustomSelect
-                v-model="filters[column.field].left.option"
-                :options="filterOptions"
-              />
-              <input
-                v-model="filters[column.field].left.query"
-                placeholder="значение">
-              <template v-if="filters[column.field].left.query">
-                <RadioGroup
-                  v-model="filters[column.field].operator"
-                  :options="filterOperators"
-                />
-                <CustomSelect
-                  v-model="filters[column.field].right.option"
-                  :options="filterOptions"
-                />
-                <input
-                  v-model="filters[column.field].right.query"
-                  placeholder="значение">
-              </template>
-              <CustomButton>
-                Фильтровать
-              </CustomButton>
-              <CustomButton type="danger-light">
-                <template #prepend>
-                  X
-                </template>
-                Сбросить
-              </CustomButton>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </template>
     <template #table-row="{ column, row, formattedRow }">
-      <div :class="{ 'custom-table__td-inner': true, 'custom-table__td-inner--truncated': ['name', 'category'].includes(column.field) }">
+      <div
+        :class="{
+          'custom-table__td-inner': true,
+          'custom-table__td-inner--truncated': ['name', 'category'].includes(
+            column.field
+          ),
+        }"
+      >
         <div v-if="column.field === 'img'" class="custom-table__checkbox-cell">
           <Checkbox
             class="custom-table__checkbox"
@@ -92,10 +56,39 @@ const initFilterOption = (option = null) => ({
   query: null
 });
 
+const initFilter = () => ({
+  search: "",
+  operator: "and",
+  left: initFilterOption("contain"),
+  right: initFilterOption(),
+  isActive: false
+});
+
+const rowsDb = Array.from({ length: 10 }, (_, i) => ({
+  img: `https://picsum.photos/id/${ i + 1 }/30`,
+  sku: `${ 165446325 + i }`,
+  name: "Носки СОВА, 1 шт",
+  platform: "Ozon",
+  category: "Одежда, обувь аксессуары/Женщина т",
+  brand: "СОВА",
+  seller: "Сова",
+  color: null,
+  availability: 2,
+  comment: 2 + i,
+  rate: (4.86 + i * 0.1).toFixed(2),
+  spp: (4.86 + i * 0.5).toFixed(2),
+  avg: (1 + i * 0.3).toFixed(2),
+  potential: (6125 + i * 5).toFixed(2),
+  price: 350 + i * 10,
+  wasIn: 4 + i,
+  salesCount: 32 + i,
+  proceeds: 11840 + i * 20
+}));
+
 export default {
   name: "HomeTable",
 
-  components: { 
+  components: {
     Checkbox,
     TableFilters
   },
@@ -217,41 +210,11 @@ export default {
           type: "number"
         }
       ],
-      rows: [
-        ...Array.from({ length: 10 }, (_, i) => ({
-          img: `https://picsum.photos/id/${ i + 1 }/30`,
-          sku: `${ 165446325 + i }`,
-          name: "Носки СОВА, 1 шт",
-          platform: "Ozon",
-          category: "Одежда, обувь аксессуары/Женщина т",
-          brand: "СОВА",
-          seller: "Сова",
-          color: null,
-          availability: 2,
-          comment: 2 + i,
-          rate: (4.86 + i * 0.1).toFixed(2),
-          spp: (4.86 + i * 0.5).toFixed(2),
-          avg: (1 + i * 0.3).toFixed(2),
-          potential: (6125 + i * 5).toFixed(2),
-          price: 350 + i * 10,
-          wasIn: 4 + i,
-          salesCount: 32 + i,
-          proceeds: 11840 + i * 20
-        }))
-      ],
+
+      rows: rowsDb,
       filters: {
-        sku: {
-          search: "",
-          operator: "and",
-          left: initFilterOption("contain"),
-          right: initFilterOption()
-        },
-        name: {
-          search: "",
-          operator: "and",
-          left: initFilterOption("contain"),
-          right: initFilterOption()
-        }
+        sku: initFilter(),
+        name: initFilter()
       },
       filterOptions: [
         {
@@ -284,27 +247,50 @@ export default {
         }
         return true;
       });
-    },
+    }
+  },
 
-    filteredRows2() {
-      const { rows, filters } = this;
+  methods: {
+    filter() {
+      const { filters } = this;
 
-      return rows.filter((row) => {
+      this.rows = rowsDb.filter((row) => {
         for (const key in filters) {
-          if (filters[key] && !`${ row[key] }`.includes(filters[key])) {
-            return false;
+          const { left, right, operator } = filters[key];
+
+          if (left.query) {
+            switch (left.option) {
+              case "contain":
+                if (!row[key].includes(left.query)) {
+                  if (operator === "and") {
+                    return false;
+                  } else {
+                    if (right.option && right.query) {
+                      switch (right.option) {
+                        case "contain":
+                          if (!row[key].includes(right.query)) {
+                            return false;
+                          }
+                          break;
+                      }
+                    }
+                  }
+                }
+                break;
+            }
           }
         }
 
         return true;
       });
-    }
-  },
+    },
 
-  methods: {
-    testMethod(column) {
-      console.log(column);
-      return column;
+    resetFilters () {
+      const { filters } = this;
+      for (const key in filters) {
+        filters[key] = initFilter();
+      }
+      this.filter();
     }
   }
 };

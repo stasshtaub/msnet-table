@@ -4,51 +4,64 @@
       class="table-filters__search"
       v-model="_searchString"
     />
-    <div class="table-filters__filter-wrp">
-      <div class="table-filters__filter">
-        <button class="table-filters__filter-btn">
+    <div
+      class="table-filters__filter-wrp"
+      v-click-outside="onOutsideClick">
+      <div :class="{ 'table-filters__filter': true, 'table-filters__filter--active': isActive }">
+        <button
+          class="table-filters__filter-btn"
+          @click="toggleActive">
           <IconFilter />
         </button>
-        <div class="table-filters__tooltip">
-          <p class="table-filters__title text text--gray">Колонка должна:</p>
-          <CustomSelect
-            v-model="_filter.left.option"
-            :options="filterOptions"
-          />
-          <input
-              class="table-filters__query"
-            v-model="_filter.left.query"
-            placeholder="значение"
-          />
-          <template v-if="_filter.left.query">
-            <RadioGroup
-              class="table-filters__radio"
-              v-model="_filter.operator"
-              :options="filterOperators"
-            />
+        <div
+          v-if="isActive"
+          class="table-filters__tooltip">
+          <form @submit.prevent="onSubmit" @reset="onReset">
+            <header>
+              <p class="table-filters__title text text--gray">Колонка должна:</p>
+            </header>
             <CustomSelect
-              v-model="_filter.right.option"
+              v-model="_filter.left.option"
               :options="filterOptions"
             />
             <input
-              class="table-filters__query"
-              v-model="_filter.right.query"
+                class="table-filters__query"
+              v-model="_filter.left.query"
               placeholder="значение"
             />
-          </template>
-          <footer class="table-filters__footer">
-            <CustomButton class="table-filters__btn">
-              Фильтровать
-            </CustomButton>
-            <CustomButton
-              class="table-filters__btn"
-              type="danger-light">
-              <template #prepend>
-                X
-              </template>
-              Сбросить
-            </CustomButton>
-          </footer>
+            <template v-if="_filter.left.query">
+              <RadioGroup
+                class="table-filters__radio"
+                v-model="_filter.operator"
+                :options="filterOperators"
+              />
+              <CustomSelect
+                v-model="_filter.right.option"
+                :options="filterOptions"
+              />
+              <input
+                class="table-filters__query"
+                v-model="_filter.right.query"
+                placeholder="значение"
+              />
+            </template>
+            <footer class="table-filters__footer">
+              <CustomButton
+                class="table-filters__btn"
+                native-type="submit">
+                Фильтровать
+              </CustomButton>
+              <CustomButton
+                class="table-filters__btn"
+                native-type="reset"
+                type="danger-light">
+                <template #prepend>
+                  X
+                </template>
+                Сбросить
+              </CustomButton>
+            </footer>
+          </form>
         </div>
       </div>
     </div>
@@ -60,6 +73,7 @@ import CustomSelect from "@/components/Common/CustomSelect";
 import RadioGroup from "@/components/Common/RadioGroup";
 import IconFilter from "@/components/Icons/IconFilter";
 import CustomButton from "@/components/Common/CustomButton";
+import ClickOutside from "vue-click-outside"
 
 export default {
   name: "Table",
@@ -69,6 +83,10 @@ export default {
     RadioGroup,
     IconFilter,
     CustomButton
+  },
+  
+  directives: {
+    ClickOutside
   },
 
   props: {
@@ -80,6 +98,11 @@ export default {
     filter: {
       type: Object,
       required: true
+    },
+
+    isActive: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -121,6 +144,36 @@ export default {
 
       set(value) {
         this.$emit("update:filter", value)
+      }
+    },
+
+    _isActive: {
+      get() {
+        return this.isActive;
+      },
+
+      set(value) {
+        this.$emit("update:isActive", value)
+      }      
+    }
+  },
+
+  methods: {
+    onSubmit() {
+      this.$emit("submit")
+    },
+
+    onReset() {
+      this.$emit("reset")
+    },
+
+    toggleActive() {
+      this._isActive = !this._isActive;
+    },
+
+    onOutsideClick() {
+      if (this.isActive) {
+        this._isActive = false;
       }
     }
   }
