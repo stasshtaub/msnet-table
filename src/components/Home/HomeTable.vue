@@ -291,8 +291,14 @@ export default {
       const { rows, filters } = this;
       return rows.filter((row) => {
         for (const key in filters) {
-          if (filters[key]?.search && !`${ row[key] }`.includes(filters[key].search)) {
-            return false;
+          const searchQuery = filters[key]?.search;
+
+          if (searchQuery) {
+            const rowData = `${ row[key] }`.toLowerCase();
+            
+            if (rowData.includes(searchQuery.toLowerCase())) {
+              return false;
+            }
           }
         }
         return true;
