@@ -3,8 +3,6 @@
   $padding-y: 6px;
   $padding-x: 12px;
   border-spacing: 0 6px;
-  // FIXME: Фильтры обрезаются, если в таблице нет строк (мало высоты). Реализовать append-to-body для фильтров и убрать это
-  min-height: 320px;
   padding: 0 10px;
 
   &__th,
@@ -82,4 +80,9 @@
     margin-right: 12px;
     flex-shrink: 0;
   }
+}
+
+.vgt-responsive {
+  // FIXME: Фильтры обрезаются, если в таблице нет строк (мало высоты). Реализовать append-to-body для фильтров и убрать это
+  min-height: 230px;
 }
