@@ -296,7 +296,7 @@ export default {
           if (searchQuery) {
             const rowData = `${ row[key] }`.toLowerCase();
             
-            if (rowData.includes(searchQuery.toLowerCase())) {
+            if (!rowData.includes(searchQuery.toLowerCase())) {
               return false;
             }
           }
