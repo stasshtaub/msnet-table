@@ -282,22 +282,6 @@ export default {
         salesCount: initFilter(),
         proceeds: initFilter()
       },
-      filterOptions: [
-        {
-          label: "содержать",
-          value: "contain"
-        }
-      ],
-      filterOperators: [
-        {
-          label: "«И»",
-          value: "and"
-        },
-        {
-          label: "«Или»",
-          value: "or"
-        }
-      ],
       selected: []
     };
   },
